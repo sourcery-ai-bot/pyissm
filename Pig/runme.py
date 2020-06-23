@@ -8,20 +8,14 @@ sys.path.append("/opt/issm/trunk/src/m/dev")
 
 os.chdir("../issm")
 os.getcwd()
-# sys.path.append("../issm/issm_python/")
-
 assert os.environ["ISSM_DIR"] == "/opt/issm/trunk"
 os.environ["PYTHONSTARTUP"] = "/opt/issm/trunk/src/m/dev/devpath.py"
 
 import devpath
 
-# import ISSM
-
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-# %matplotlib inline
 
 from model import model
 from bamg import bamg
@@ -95,8 +89,7 @@ if step == 1:
     # Save model
     savevars("Pig/Models/PIG_Mesh_generation_py.dat", {"md": md})
 
-# Masks #2
-if step == 2:
+elif step == 2:
     md = loadmodel(path="Pig/Models/PIG_Mesh_generation_py.dat")
 
     # Load ALBMAP dataset
@@ -132,8 +125,7 @@ if step == 2:
     # Save model
     savevars("Pig/Models/PIG_SetMask_py.dat", {"md": md})
 
-# Parameterization #3
-if step == 3:
+elif step == 3:
     md = loadmodel(path="Pig/Models/PIG_SetMask_py.dat")
 
     md = parameterize(md=md, parametername="Pig/Pig_py.par")
@@ -144,8 +136,7 @@ if step == 3:
     # Save model
     savevars("Pig/Models/PIG_Parameterization_py.dat", {"md": md})
 
-# Control Method #4
-if step == 4:
+elif step == 4:
     md = loadmodel(path="Pig/Models/PIG_Parameterization_py.dat")
 
     # Control general
@@ -192,8 +183,7 @@ if step == 4:
     # Save model
     savevars("Pig/Models/PIG_Control_drag_py.dat", {"md": md})
 
-# Plot #5
-if step == 5:
+elif step == 5:
     md = loadmodel(path="Pig/Models/PIG_Control_drag_py.dat")
 
     plotmodel(
@@ -226,8 +216,7 @@ if step == 5:
         10,
     )
 
-# Higher-Order #6
-if step == 6:
+elif step == 6:
     # Load Model
     md = loadmodel(path="Pig/Models/PIG_Control_drag_py.dat")
 
@@ -247,17 +236,12 @@ if step == 6:
     # Save Model
     savevars("Pig/Models/PIG_ModelHO_py.dat", {"md": md})
 
-# Plot #7
-if step == 7:
+elif step == 7:
     mdHO = loadmodel("Pig/Models/PIG_ModelHO_py.dat")
     mdSSA = loadmodel("Pig/Models/PIG_Control_drag_py.dat")
 
     basal = np.argwhere(mdHO.mesh.vertexonbase)
     surf = np.argwhere(mdHO.mesh.vertexonsurface)
-
-    # procdata = ho_minus_obs_vel
-    # datasize = (np.shape(procdata)[0], 1)
-    # datasize[1] > 1 and datasize[0] != md.mesh.numberofvertices + 1
 
     plotmodel(
         mdHO,
